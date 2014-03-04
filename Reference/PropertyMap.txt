@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+
+namespace EPOP.ValidationV2.Mapping
+{
+    public class PropertyMap : IEnumerable<PropertyMapItem>
+    {
+        private readonly List<PropertyMapItem> _innerList;
+
+        public PropertyMap()
+        {
+            _innerList = new List<PropertyMapItem>();
+        }
+        public void Add(PropertyMapItem item)
+        {
+            _innerList.Add(item);
+        }
+
+        public IEnumerator<PropertyMapItem> GetEnumerator()
+        {
+            return _innerList.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _innerList.GetEnumerator();
+        }
+    }
+}
