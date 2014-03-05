@@ -4,15 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+<<<<<<< HEAD
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+=======
+using System.Text.RegularExpressions;
+>>>>>>> working version
+using NetCompareTest;
 
 namespace NetCompareTest
 {
-    class Program
+    public class Address
     {
+<<<<<<< HEAD
         static string BuildPath(IEnumerable<MappingEntry> entries)
         {
             var current = String.Empty;
@@ -80,8 +86,41 @@ static void Main(string[] args)
             PropertyStack.Clear();
 
             Console.Read();
-        }
+=======
+        public string Country { get; set; }
 
+        public string State { get; set; }
+
+        public string Street { get; set; }
+    }
+
+    public class Phone
+    {
+        public string Number { get; set; }
+
+        public string Type { get; set; }
+    }
+
+    public class User
+    {
+        public Address Address { get; set; }
+        /*
+        public List<User> Friends { get; set; }
+        */
+        public string Name { get; set; }
+
+        public int Number { get; set; }
+        
+        public List<Phone> Phones { get; set; }
+        
+        public User()
+        {
+            //Friends = new List<User>();
+>>>>>>> working version
+        }
+    }
+
+<<<<<<< HEAD
         public static object GetValueFromPath<T>(string path, T rootObj)
         {
             var segments = path.Split('.');
@@ -90,10 +129,23 @@ static void Main(string[] args)
                                                        BindingFlags.Static | BindingFlags.NonPublic |
                                                        BindingFlags.Public);
          
+=======
+    internal class Program
+    {
+        public static object GetValueFromPath<T>( string path, T rootObj )
+        {
+            var segments = path.Split( '.' );
+
+            var method = typeof( Enumerable ).GetMethod( "ElementAt",
+                                                       BindingFlags.Static | BindingFlags.NonPublic |
+                                                       BindingFlags.Public );
+
+>>>>>>> working version
             const string collectionRegex = @"\[\d]";
             const string indexRegex = @"[\d]";
 
             //Start
+<<<<<<< HEAD
             var param = Expression.Parameter(rootObj.GetType(), "i");
 
             Expression workingExpression = null;
@@ -113,16 +165,46 @@ static void Main(string[] args)
                     var elementAtMethod = method.MakeGenericMethod(listType);
 
                     workingExpression = Expression.Call(elementAtMethod, workingExpression, Expression.Constant(index));
+=======
+            var param = Expression.Parameter( rootObj.GetType(), "i" );
+
+            Expression workingExpression = null;
+            foreach ( var segment in segments )
+            {
+                var isCollection = Regex.IsMatch( segment, collectionRegex );
+
+                if ( isCollection )
+                {
+                    var propName = Regex.Replace( segment, collectionRegex, String.Empty );
+                    var index = int.Parse( Regex.Match( segment, indexRegex ).Value );
+                    workingExpression = workingExpression == null
+                        ? Expression.Property( param, propName )
+                        : Expression.Property( workingExpression, propName );
+
+                    var listType = ( workingExpression as MemberExpression ).Type.GetGenericArguments()[ 0 ];
+                    var elementAtMethod = method.MakeGenericMethod( listType );
+
+                    workingExpression = Expression.Call( elementAtMethod, workingExpression, Expression.Constant( index ) );
+>>>>>>> working version
                 }
                 else
                 {
                     workingExpression = workingExpression == null
+<<<<<<< HEAD
                    ? Expression.Property(param, segment)
                    : Expression.Property(workingExpression, segment);
                 }
             }
 
             return Expression.Lambda(workingExpression, param).Compile().DynamicInvoke(rootObj);
+=======
+                   ? Expression.Property( param, segment )
+                   : Expression.Property( workingExpression, segment );
+                }
+            }
+
+            return Expression.Lambda( workingExpression, param ).Compile().DynamicInvoke( rootObj );
+>>>>>>> working version
         }
 
         public class MappingContext
@@ -133,6 +215,7 @@ static void Main(string[] args)
             public string ParentPropertyPath { get; set; }
         }
 
+<<<<<<< HEAD
         public class MappingEntry
         {
             public string Name { get; set; }
@@ -178,6 +261,30 @@ static void Main(string[] args)
                     }
                 }
             }
+=======
+        private static void Main( string[] args )
+        {
+            var user1 = new User
+            {
+                Name = "Foo",
+                Number = 19,
+                Address = new Address
+                {
+                    Street = "MyStreet",
+                    State = "MyState",
+                    Country = "SomeCountry"
+                },
+
+                Phones = new List<Phone>
+                {
+                    new Phone{ Number = "334-558-5656", Type = "Home"},
+                    new Phone{ Number = "334-555-6677", Type = "Cell"}
+                }
+            };
+
+            new MappingContext(user1).StepForward();
+            Console.Read();
+>>>>>>> working version
         }
 
         private static bool ShouldIgnore(PropertyInfo pInfo)

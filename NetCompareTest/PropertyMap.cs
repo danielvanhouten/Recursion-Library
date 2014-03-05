@@ -15,6 +15,10 @@ namespace NetCompareTest
         {
             _innerList = new List<PropertyMapItem>();
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> working version
         public void Add(PropertyMapItem item)
         {
             _innerList.Add(item);
