@@ -43,6 +43,10 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyMap.cs" />
+    <Compile Include="PropertyMapItem.cs" />
+    <Compile Include="RecursiveMapper.cs" />
+    <Compile Include="ResolveCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
